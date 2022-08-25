@@ -5,14 +5,26 @@ import Homepage from './Homepage';
 import HanfuDetails from './HanfuDetails';
 import { Cartpage_page } from './CartPage';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import AllHanfu from './AllHanfu';
+import { _Navbar } from './component/_navbar';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <React.Fragment>
+      <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
+
+      <script
+        src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
+        ></script>
+
+      <_Navbar />
+
+
 
       <BrowserRouter>
-      {/* 用于match地址栏内gitpod.io/后面的内容 */}
+        {/* 用于match地址栏内gitpod.io/后面的内容 */}
         <Routes >
 
           <Route path="/" element={<Homepage />} />
@@ -20,9 +32,12 @@ function App() {
           <Route path="/cart_route" element={<Cartpage_page />} />
           {/* ^^^ if '/cart_route' appear the address bar, then show <Homepage> */}
           <Route path="/hanfudetails" element={<HanfuDetails />} />
+          <Route path="/allhanfu" element={<AllHanfu />} />
 
         </Routes >
       </BrowserRouter>
+
+
     </React.Fragment>
 
 

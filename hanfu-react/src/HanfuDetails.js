@@ -8,21 +8,21 @@ import axios from 'axios'
 // 2. The content in the shopping cart is also an object/array
 
 export default function HanfuDetails() {
-    let [allHanfu, setAllHanfu] = useState([])
+    let [thisHanfu, sertThisHanfu] = useState([])
     let [hanfuDisplay, setHanfuDisplay] = useState([])
 
     useEffect(() => {
-        axios.get('https://3000-anqiii123-p3express-yufgfp2dcqg.ws-us62.gitpod.io/allHanfu').then(
+        axios.get('https://3000-anqiii123-p3express-yufgfp2dcqg.ws-us63.gitpod.io/hf-detail/').then(
             (res) => {
-                setAllHanfu(res.data)
-                let _hanfuDisplay = res.data.map( (eachHanfu) => {
-                    return(
-                    <span key={eachHanfu.name}>
-                        <p>汉服名字：{eachHanfu.name}</p>
-                        <p>价格：{eachHanfu.price}</p>
+                sertThisHanfu(res.data)
+                let _hanfuDisplay = 
+                (
+                    <span key={res.data.name}>
+                        <p>Hanfu Name : {res.data.name}</p>
+                        <p>Hanfu Price : {res.data.cost}</p>
                     </span>
-                    )
-                })
+                )
+                
 
                 setHanfuDisplay(_hanfuDisplay)
             }
@@ -31,9 +31,6 @@ export default function HanfuDetails() {
 
 
     }, [])
-
-    console.log(allHanfu)
-    console.log(hanfuDisplay)
 
     return (
         <React.Fragment>
