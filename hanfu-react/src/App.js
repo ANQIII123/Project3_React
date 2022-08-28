@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
+
 import Homepage from './Homepage';
 import HanfuDetails from './HanfuDetails';
 import { Cartpage_page } from './CartPage';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import AllHanfu from './AllHanfu';
 import { _Navbar } from './component/_navbar';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginPage from './users/login';
+import RegisterPage from './users/register';
 
 function App() {
   return (
     <React.Fragment>
       <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
 
-      <script
-        src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"
-        ></script>
+      <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+
+      <script src="https://unpkg.com/react-bootstrap@next/dist/react-bootstrap.min.js"></script>
 
       <_Navbar />
 
@@ -33,6 +35,8 @@ function App() {
           {/* ^^^ if '/cart_route' appear the address bar, then show <Homepage> */}
           <Route path="/hanfudetails" element={<HanfuDetails />} />
           <Route path="/allhanfu" element={<AllHanfu />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
 
         </Routes >
       </BrowserRouter>
