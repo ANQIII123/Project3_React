@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from 'universal-cookie'
 
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -8,11 +10,32 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 
-// shopping cart is an object
-// 1. Modify object in state
-// 2. The content in the shopping cart is also an object/array
-
 export default function LoginPage() {
+
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
+    let [msgProp, setMsgProp] = useState({})
+
+    const handleLogin = async () => {
+        //validation missing
+        // check all fields are filled, and password == password 2
+        console.log(email, password)
+
+        let result = await axios.post(process.env.REACT_APP_SERVER_URL + '/login', {
+            email,
+            password
+        })
+
+        if (result.data) {
+            console.log(result.data)
+            const cookies = new Cookies();
+            cookies.set('username', result.data.username, { path: '/' });
+            cookies.set('userEmail', result.data.email, { path: '/' });
+            window.location.href = '/'
+        }
+
+    }
+
     return (
         <Container className="my-5 gradient-form">
 
@@ -31,20 +54,26 @@ export default function LoginPage() {
 
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Registered email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Control
+                                type="email"
+                                placeholder="Enter email"
+                                value={email}
+                                onChange={(e) => { setEmail(e.target.value) }} />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Password</Form.Label>
                             <Form.Control
-                                placeholder="Password"
                                 type="password"
+                                placeholder="Your Password"
+                                value={password}
+                                onChange={(e) => { setPassword(e.target.value) }}
                             />
                         </Form.Group>
 
 
                         <div className="text-center pt-1 mb-5 pb-1">
-                            <Button className="mb-4 w-100 gradient-custom-2">Sign in</Button>
+                            <Button className="mb-4 w-100 gradient-custom-2" onClick={() => { handleLogin() }}>Sign in</Button>
                             <a className="text-muted" href="#!">Forgot password?</a>
                         </div>
 

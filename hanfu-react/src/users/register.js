@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios, { Axios } from "axios";
+import axios from "axios";
 // import { Link } from "react-router-dom";
 
 import Container from 'react-bootstrap/Container';
@@ -8,33 +8,39 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+import { _Message } from "../component/_message";
 
-
-// shopping cart is an object
-// 1. Modify object in state
-// 2. The content in the shopping cart is also an object/array
 
 export default function RegisterPage() {
     let [email, setEmail] = useState('');
     let [userName, setUserName] = useState('');
     let [password, setPassword] = useState('');
-    let [password2, setPassword2] = useState('')
+    let [password2, setPassword2] = useState('');
+    let [msgProp, setMsgProp] = useState({})
 
     const handleRegister = async () => {
         //validation missing
         // check all fields are filled, and password == password 2
-        console.log(email,userName,password)
+        console.log(email, userName, password)
 
-        let result = await axios.post(process.env.REACT_APP_SERVER_URL+'/register', {
+        let result = await axios.post(process.env.REACT_APP_SERVER_URL + '/register', {
             email,
             userName,
             password
         })
 
 
-        if(result){
-            console.log(result)
+        if (result.data) {
+            console.log(result.data)
+
+            setMsgProp({ message: result.data + ' registered successful, please go to login', variant: 'success' })
+            
+            setEmail('');
+            setUserName('') 
+            setPassword('') 
+            setPassword2('')
         }
+
 
     }
 
@@ -50,16 +56,21 @@ export default function RegisterPage() {
                         <div className="text-center">
                             <img src="https://png.pngtree.com/png-clipart/20190617/original/pngtree-chinese-style-red-hanfu-costume-illustration-png-image_3889584.jpg"
                                 style={{ width: '185px' }} alt="logo" />
-                            <h4 className="mt-1 mb-5 pb-1">Hanfu store</h4>
+                            <h4 className="mt-1 mb-3 pb-1">Hanfu store</h4>
                         </div>
 
-                        <h5>Register</h5>
+                        <a className="text-muted mb-2" href="/login">Go to login</a>
+
+                        <h5 className="text-center">Register</h5>
+
+                        {msgProp.message && <_Message msgProp = {msgProp}/>}
 
                         <Form.Group className="mb-3">
                             <Form.Label>Register an email address</Form.Label>
                             <Form.Control
                                 type="email"
                                 placeholder="Enter email"
+                                value={email}
                                 onChange={(e) => { setEmail(e.target.value) }}
                             />
                         </Form.Group>
@@ -69,6 +80,7 @@ export default function RegisterPage() {
                             <Form.Control
                                 type="text"
                                 placeholder="Enter username"
+                                value={userName}
                                 onChange={(e) => { setUserName(e.target.value) }}
                             />
                         </Form.Group>
@@ -78,6 +90,7 @@ export default function RegisterPage() {
                             <Form.Control
                                 placeholder="Password"
                                 type="password"
+                                value={password}
                                 onChange={(e) => { setPassword(e.target.value) }}
                             />
                         </Form.Group>
@@ -87,12 +100,13 @@ export default function RegisterPage() {
                             <Form.Control
                                 placeholder="Re-enter Password"
                                 type="password"
+                                value={password2}
                                 onChange={(e) => { setPassword2(e.target.value) }}
                             />
                         </Form.Group>
 
                         <div className="text-center pt-1 mb-5 pb-1">
-                            <Button className="mb-4 w-100 gradient-custom-2" onClick={()=>{handleRegister()}}>Register</Button>
+                            <Button className="mb-4 w-100 gradient-custom-2" onClick={() => { handleRegister() }}>Register</Button>
                         </div>
 
                     </div>
