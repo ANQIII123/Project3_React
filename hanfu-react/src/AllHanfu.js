@@ -4,6 +4,10 @@ import axios from 'axios'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import { MdOutlineAddShoppingCart } from 'react-icons/md'
+import Cookies from "universal-cookie";
+
 
 // shopping cart is an object
 // 1. Modify object in state
@@ -11,11 +15,20 @@ import Card from 'react-bootstrap/Card';
 
 export default function AllHanfu() {
 
-
     let [allHanfu, setAllHanfu] = useState([])
     let [hanfuDisplay, setHanfuDisplay] = useState([])
 
+
+
     useEffect(() => {
+        const cookies = new Cookies()
+
+        async function addToCart(hanfuId) {
+            console.log(hanfuId)
+            axios.post(`${process.env.REACT_APP_SERVER_URL}/${hanfuId}/add`, { user: cookies.get('user') })
+
+        }
+
         axios.get(process.env.REACT_APP_SERVER_URL + '/allHanfu').then(
             (res) => {
                 setAllHanfu(res.data)
@@ -23,29 +36,25 @@ export default function AllHanfu() {
                     return (
                         <Col md={3} key={eachHanfu.name}>
                             <Card style={{ width: '100%' }}>
-                                <Card.Img variant="top" src="" />
-                                {/* 上面src可以放汉服图片链接 */}
+                                <Card.Img variant="top" src={eachHanfu.img_address} style={{ maxHeight: '25em', objectFit: 'cover' }} />
                                 <Card.Body>
                                     <Card.Title>{eachHanfu.name}</Card.Title>
                                     <Card.Text>
-                                        <p>price：{eachHanfu.cost}</p>
-                                        <p>Desc：{eachHanfu.description}</p>
-                                        <p>Category：{eachHanfu.category}</p>
-                                        <p>Review:{eachHanfu.Review}</p>
+                                        Price：{eachHanfu.cost}<br />
+                                        Desc：{eachHanfu.description}<br />
+                                        Category：{eachHanfu.category}<br />
+                                        Review: {eachHanfu.Review}<br />
                                     </Card.Text>
+                                    <Button variant="primary" className='px-4 me-3 float-end' onClick={() => { addToCart(eachHanfu.id) }}> <MdOutlineAddShoppingCart /> </Button>
                                 </Card.Body>
                             </Card>
 
                         </Col>
                     )
                 })
-
                 setHanfuDisplay(_hanfuDisplay)
             }
         )
-
-
-
     }, [])
 
     console.log(allHanfu)
@@ -56,7 +65,7 @@ export default function AllHanfu() {
             <div>
                 This is all hanfu
             </div>
-            <Row>
+            <Row className="mx-5">
                 {hanfuDisplay}
 
             </Row>

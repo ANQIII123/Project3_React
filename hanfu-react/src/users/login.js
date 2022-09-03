@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from 'universal-cookie'
@@ -9,6 +9,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
+import { _Message as Message} from "../component/_message";
 
 export default function LoginPage() {
 
@@ -26,12 +27,17 @@ export default function LoginPage() {
             password
         })
 
-        if (result.data) {
+        if (result.data[0]) {
             console.log(result.data)
             const cookies = new Cookies();
-            cookies.set('username', result.data.username, { path: '/' });
-            cookies.set('userEmail', result.data.email, { path: '/' });
+            cookies.set('user', result.data[1].user, { path: '/' });
             window.location.href = '/'
+        }else{
+            if(result.data[0] === false){
+                setMsgProp({ message: result.data[1], variant: 'danger' })
+            }else{
+                setMsgProp({ message: 'something went wrong', variant: 'danger' })
+            }
         }
 
     }
@@ -51,6 +57,8 @@ export default function LoginPage() {
                         </div>
 
                         <h5>Please login to your account</h5>
+
+                        <Message msgProp = {msgProp}/>
 
                         <Form.Group className="mb-3" controlId="email">
                             <Form.Label>Registered email address</Form.Label>

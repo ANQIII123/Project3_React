@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import axios from "axios";
 // import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-import { _Message } from "../component/_message";
+import { _Message as Message} from "../component/_message";
 
 
 export default function RegisterPage() {
@@ -63,7 +63,7 @@ export default function RegisterPage() {
 
                         <h5 className="text-center">Register</h5>
 
-                        {msgProp.message && <_Message msgProp = {msgProp}/>}
+                        {msgProp.message && <Message msgProp = {msgProp}/>}
 
                         <Form.Group className="mb-3">
                             <Form.Label>Register an email address</Form.Label>

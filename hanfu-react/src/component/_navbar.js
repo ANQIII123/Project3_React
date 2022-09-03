@@ -11,8 +11,7 @@ export function _Navbar() {
 
     const cookies = new Cookies();
     const logout = () =>{
-        cookies.remove('username');
-        cookies.remove('userEmail');
+        cookies.remove('user');
         window.location.href = '/'
     }
 
@@ -31,10 +30,10 @@ export function _Navbar() {
 
                     <Nav className="justify-content-end">
                         {
-                            cookies.get('username') === undefined ?
+                            cookies.get('user') === undefined ?
                                 <Nav.Link href="/login"><FaUserAlt /> Login/Sign Up</Nav.Link>
                                 :
-                                <NavDropdown title={ [<FaUserAlt/> , ' '+ cookies.get('username')]}>
+                                <NavDropdown title={ [<FaUserAlt key='icon'/> , ' '+ cookies.get('user').username]}>
                                     <NavDropdown.Item onClick={()=>{logout()}}>
                                         Logout
                                     </NavDropdown.Item>
